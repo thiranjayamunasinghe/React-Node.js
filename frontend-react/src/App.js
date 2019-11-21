@@ -6,8 +6,9 @@ import Home from "./components/home";
 import Test from "./components/test";
 import React, { Component } from "react";
 import PrivateRoute from "./components/utils/PrivateRoute";
-import Dashboard from "./components/dashboard";
-import Store from "./components/store";
+import Dashboard from "./components/dashboard.jsx";
+import Store from "./components/Store.jsx";
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -83,11 +84,15 @@ import {
 
 function App() {
   return (
-    <div className="App">
-      <Dashboard />
-      {/* <Store>
-      </Store> */}
-    </div>
+    <Store>
+      <div className="App">
+        <header className="App-header">
+
+          <h1 className="App-title">Welcome to my web store</h1>
+        </header>
+        <Dashboard />
+      </div>
+    </Store>
   );
 }
 

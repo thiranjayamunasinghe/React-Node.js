@@ -9,6 +9,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import MyContext from './MyContext.js'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,33 +39,38 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+
+
 function Dashboard() {
   const classes = useStyles();
-  // const [a] = React.useContext(CTX);
+  const [allChats] = React.useContext(MyContext);
+  const topics = Object.keys(allChats)
   const [textValue, changeTextValue] = React.useState("");
-  // console.log({ allChats });
+  const [activeTopic, changeActiveTopic] = React.useState(topics[0]);
+
+
   return (
     <div>
       <Paper className={classes.root}>
         <Typography variant="h4" component="h4">
           Chat App{" "}
         </Typography>
-        <Typography component="h5">Topic Placeholder</Typography>
+        <Typography component="h5">{activeTopic}</Typography>
         <div className={classes.flex}>
           <div className={classes.topicWindow}>
             <List>
-              {["topic"].map(topic => (
-                <ListItem button>
+              {topics.map(topic => (
+                <ListItem onClick={e => changeActiveTopic(e.target.innerText)} button key={topic} >
                   <ListItemText primary={topic} />
                 </ListItem>
               ))}
             </List>
           </div>
           <div className={classes.chatWindow}>
-            {[{ from: "user", msg: "hello" }].map((chat, i) => (
+            {allChats[activeTopic].map((chat, i) => (
               <div className={classes.flex} key={i}>
                 <Chip label={chat.from} />
-                <Typography variant="p">{chat.msg}</Typography>
+                <Typography variant="body1">{chat.msg}</Typography>
               </div>
             ))}
           </div>
@@ -77,12 +83,12 @@ function Dashboard() {
             value={textValue}
             onChange={e => changeTextValue(e.target.value)}
           />
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" >
             Send
           </Button>
         </div>
       </Paper>
-    </div>
+    </div >
   );
 }
 
