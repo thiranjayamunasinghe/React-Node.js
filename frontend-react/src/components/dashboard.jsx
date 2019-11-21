@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 
 function Dashboard() {
   const classes = useStyles();
-  const [allChats] = React.useContext(MyContext);
+  const { allChats, sendChatAction, user } = React.useContext(MyContext);
   const topics = Object.keys(allChats)
   const [textValue, changeTextValue] = React.useState("");
   const [activeTopic, changeActiveTopic] = React.useState(topics[0]);
@@ -83,7 +83,10 @@ function Dashboard() {
             value={textValue}
             onChange={e => changeTextValue(e.target.value)}
           />
-          <Button color="primary" variant="contained" >
+          <Button onClick={() => {
+            sendChatAction({ from: user, msg: textValue, topic: activeTopic });
+            changeTextValue('');
+          }} color="primary" variant="contained" >
             Send
           </Button>
         </div>
